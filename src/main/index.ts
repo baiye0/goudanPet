@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, screen } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
@@ -9,15 +9,22 @@ function createWindow(): void {
     width: 900,
     height: 670,
     show: false,
+    frame: true,
+    // 无标题
+    titleBarStyle: 'hidden',
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
+      sandbox: false,
+      contextIsolation: false
     }
   })
+  //调试窗口
+  mainWindow.webContents.openDevTools()
 
   mainWindow.on('ready-to-show', () => {
+    //表明页面内容加载好了。
     mainWindow.show()
   })
 
@@ -25,6 +32,40 @@ function createWindow(): void {
     shell.openExternal(details.url)
     return { action: 'deny' }
   })
+
+  ipcMain.on('detach:service', async (event, arg: { type: string }) => {
+    operation[arg.type]()
+  })
+
+  ipcMain.on(
+    'msg-trigger',
+    async (
+      event,
+      arg: { type: string; data: { mouseX: number; mouseY: number; width: number; height: number } }
+    ) => {
+      operation[arg.type](arg.data)
+    }
+  )
+
+  const win = mainWindow
+  const operation = {
+    minimize: () => {
+      win.focus()
+      win.minimize()
+    },
+    maximize: () => {
+      win.isMaximized() ? win.unmaximize() : win.maximize()
+    },
+    close: () => {
+      win.close()
+    },
+    windowMoving: ({ mouseX, mouseY, width, height }) => {
+      const { x, y } = screen.getCursorScreenPoint()
+      console.log(x, y)
+      win.setBounds({ x: x - mouseX, y: y - mouseY, width, height })
+      win.setPosition(x - mouseX, y - mouseY)
+    }
+  }
 
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
@@ -65,6 +106,7 @@ app.whenReady().then(() => {
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
+  //如果不是mac就退出
   if (process.platform !== 'darwin') {
     app.quit()
   }

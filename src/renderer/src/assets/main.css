@@ -1,13 +1,11 @@
 @import './base.css';
 
 body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  background-image: url('./wavy-lines.svg');
-  background-size: cover;
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, 'PingFang SC', 'Helvetica Neue', 'Microsoft Yahei', sans-serif;
   user-select: none;
+  overflow: hidden;
 }
 
 code {
@@ -27,11 +25,8 @@ code {
 }
 
 #app {
+  width: 100vw;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  margin-bottom: 80px;
 }
 
 .logo {
