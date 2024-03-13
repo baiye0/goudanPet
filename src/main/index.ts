@@ -3,6 +3,9 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 
+process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
+
+//入口
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -47,6 +50,34 @@ function createWindow(): void {
     }
   )
 
+  ipcMain.on('open2', () => {
+    const mainWindow = new BrowserWindow({
+      width: 900,
+      height: 670,
+      show: false,
+      frame: true,
+      // 无标题
+      titleBarStyle: 'hidden',
+      autoHideMenuBar: true,
+      ...(process.platform === 'linux' ? { icon } : {}),
+      webPreferences: {
+        preload: join(__dirname, '../preload/index.js'),
+        sandbox: false,
+        contextIsolation: false
+      }
+    })
+    if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
+      mainWindow.loadURL(`${process.env['ELECTRON_RENDERER_URL']}/pages/pageB/index.html`)
+      // mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
+    } else {
+      mainWindow.loadFile(join(__dirname, '../renderer/pages/pageB/index.html'))
+    }
+    mainWindow.on('ready-to-show', () => {
+      //表明页面内容加载好了。
+      mainWindow.show()
+    })
+  })
+
   const win = mainWindow
   const operation = {
     minimize: () => {
@@ -69,10 +100,13 @@ function createWindow(): void {
 
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
+  console.log(process.env['ELECTRON_RENDERER_URL'])
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
+    //多页面配置
+    mainWindow.loadURL(`${process.env['ELECTRON_RENDERER_URL']}/pages/mainPage/index.html`)
+    // mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
   } else {
-    mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
+    mainWindow.loadFile(join(__dirname, '../renderer/pages/mainPage/index.html'))
   }
 }
 

@@ -16,6 +16,14 @@ export default defineConfig({
       },
       extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue']
     },
-    plugins: [vue()]
+    plugins: [vue()],
+    build: {
+      rollupOptions: {
+        input: {
+          index: resolve(__dirname, 'src/renderer/pages/mainPage/index.html'),
+          webview: resolve(__dirname, 'src/renderer/pages/pageB/index.html')
+        }
+      }
+    }
   }
 })

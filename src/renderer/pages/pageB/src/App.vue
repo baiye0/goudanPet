@@ -2,36 +2,16 @@
 import Versions from './components/Versions.vue'
 // import useDrag from './utils/dragWindow'
 // const { onMouseDown } = useDrag()
-const ipcRenderer = window.electron.ipcRenderer
-console.log(ipcRenderer)
-const process = window.electron.process
-// 最小化
-const minimize = () => {
-  ipcRenderer.send('detach:service', { type: 'minimize' })
-}
-// 最大化
-const maximize = () => {
-  ipcRenderer.send('detach:service', { type: 'maximize' })
-}
-// 关闭窗口
-const close = () => {
-  ipcRenderer.send('detach:service', { type: 'close' })
-}
 </script>
 
 <template>
   <div class="nav">
     <div class="info">
-      <span>狗蛋功能面板</span>
+      <span>狗蛋功能面板2</span>
     </div>
     <div class="handle-container">
       <div class="handle">
         <div class="devtool" title="开发者工具"></div>
-      </div>
-      <div class="window-handle" v-if="process.platform !== 'darwin'">
-        <div class="minimize" @click="minimize"></div>
-        <div class="maximize" @click="maximize"></div>
-        <div class="close" @click="close"></div>
       </div>
     </div>
   </div>
