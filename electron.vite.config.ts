@@ -20,8 +20,8 @@ export default defineConfig({
     build: {
       rollupOptions: {
         input: {
-          index: resolve(__dirname, 'src/renderer/pages/mainPage/index.html'),
-          webview: resolve(__dirname, 'src/renderer/pages/pageB/index.html')
+          index: resolve(__dirname, 'src/renderer/src/pages/mainPage/index.html'),
+          webview: resolve(__dirname, 'src/renderer/src/pages/pageB/index.html')
         }
       }
     }

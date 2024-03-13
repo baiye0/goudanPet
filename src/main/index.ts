@@ -67,10 +67,10 @@ function createWindow(): void {
       }
     })
     if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-      mainWindow.loadURL(`${process.env['ELECTRON_RENDERER_URL']}/pages/pageB/index.html`)
+      mainWindow.loadURL(`${process.env['ELECTRON_RENDERER_URL']}/src/pages/pageB/index.html`)
       // mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
     } else {
-      mainWindow.loadFile(join(__dirname, '../renderer/pages/pageB/index.html'))
+      mainWindow.loadFile(join(__dirname, '../renderer/src/pages/pageB/index.html'))
     }
     mainWindow.on('ready-to-show', () => {
       //表明页面内容加载好了。
@@ -103,10 +103,10 @@ function createWindow(): void {
   console.log(process.env['ELECTRON_RENDERER_URL'])
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
     //多页面配置
-    mainWindow.loadURL(`${process.env['ELECTRON_RENDERER_URL']}/pages/mainPage/index.html`)
+    mainWindow.loadURL(`${process.env['ELECTRON_RENDERER_URL']}/src/pages/mainPage/index.html`)
     // mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
   } else {
-    mainWindow.loadFile(join(__dirname, '../renderer/pages/mainPage/index.html'))
+    mainWindow.loadFile(join(__dirname, '../renderer/src/pages/mainPage/index.html'))
   }
 }
 
