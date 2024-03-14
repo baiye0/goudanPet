@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Versions from './components/Versions.vue'
-const ipcRenderer = window.electron.ipcRenderer
+import { ipcRenderer } from '../../../global'
 console.log(ipcRenderer)
 function open2() {
   ipcRenderer.send('open2')
@@ -67,15 +67,10 @@ const close = () => {
 }
 
 .handle > div {
-  width: 36px;
   height: 36px;
   border-radius: 18px;
   cursor: pointer;
   margin-right: 6px;
-}
-
-.handle > div:hover {
-  background-color: #dee2e6;
 }
 
 .handle .devtool {
