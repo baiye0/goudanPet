@@ -23,7 +23,10 @@
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.0",
     "@electron-toolkit/utils": "^3.0.0",
-    "electron-updater": "^6.1.7"
+    "@pixi/unsafe-eval": "6.5.10",
+    "electron-updater": "^6.1.7",
+    "pixi-live2d-display": "^0.4.0",
+    "pixi.js": "6.5.10"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config": "^1.0.2",

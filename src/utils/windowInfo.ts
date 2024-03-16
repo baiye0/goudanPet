@@ -5,18 +5,20 @@ import { is } from '@electron-toolkit/utils'
 import { BrowserWindowConstructorOptions, shell, BrowserWindow } from 'electron'
 //主窗体信息
 export const mainWindowInfo: BrowserWindowConstructorOptions = {
-  width: 900,
+  width: 500,
   height: 670,
-  show: false,
-  frame: true,
+  frame: false,
+  transparent: true,
   // 无标题
-  titleBarStyle: 'hidden',
+  // titleBarStyle: 'hidden',
+  titleBarStyle: 'customButtonsOnHover',
   autoHideMenuBar: true,
   ...(process.platform === 'linux' ? { icon } : {}),
   webPreferences: {
     preload: join(__dirname, '../preload/index.js'),
     sandbox: false,
-    contextIsolation: false
+    contextIsolation: false,
+    experimentalFeatures: true
   }
 }
 

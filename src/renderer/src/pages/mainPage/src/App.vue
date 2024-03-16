@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import Versions from './components/Versions.vue'
 import { ipcRenderer } from '../../../global'
+import { onMounted } from 'vue'
+import { wlLive2d } from '../lib/index.js'
 console.log(ipcRenderer)
 function open2() {
   ipcRenderer.send('open2')
@@ -17,9 +18,16 @@ const maximize = () => {
 const close = () => {
   ipcRenderer.send('detach:service', { type: 'close' })
 }
+
+onMounted(() => {
+  const live2d = wlLive2d({
+    selector: '#live2d-id'
+  })
+})
 </script>
 
 <template>
+  <!--
   <div class="nav">
     <div class="info">
       <span>狗蛋功能面板</span>
@@ -34,19 +42,8 @@ const close = () => {
         </div>
       </div>
     </div>
-  </div>
-  <div>
-    <div
-      @click="
-        () => {
-          open2()
-        }
-      "
-    >
-      打开页面2123
-    </div>
-  </div>
-  <Versions />
+  </div> -->
+  <div id="live2d-id"></div>
 </template>
 <style>
 .nav {

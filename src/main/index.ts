@@ -3,13 +3,11 @@ import { electronApp, optimizer } from '@electron-toolkit/utils'
 import { useMainWindow } from '../utils/windowInfo'
 import { initSignal } from '../utils/signal'
 
-process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
-
 initSignal()
 
 app.whenReady().then(() => {
   electronApp.setAppUserModelId('com.electron')
-
+  process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)
   })
