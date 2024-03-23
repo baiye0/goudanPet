@@ -1,6 +1,6 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
 import { electronApp, optimizer } from '@electron-toolkit/utils'
-import { useMainWindow } from '../utils/windowInfo'
+import { usedesktopPetWindow, useMainWindow } from '../utils/windowInfo'
 import { initSignal } from '../utils/signal'
 
 initSignal()
@@ -14,6 +14,7 @@ app.whenReady().then(() => {
 
   ipcMain.on('ping', () => console.log('pong'))
   useMainWindow()
+  usedesktopPetWindow()
   app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) useMainWindow()
   })

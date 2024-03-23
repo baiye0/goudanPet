@@ -1,5 +1,5 @@
 import { BrowserWindow, screen } from 'electron'
-import { usePageBWindow } from './windowInfo'
+import { usedesktopPetWindow } from './windowInfo'
 
 export function detachService(type: string, win: BrowserWindow): void {
   const operation = {
@@ -24,5 +24,5 @@ export function detachService(type: string, win: BrowserWindow): void {
 }
 
 export function open2() {
-  usePageBWindow()
+  usedesktopPetWindow()
 }

@@ -47,11 +47,11 @@ export const useMainWindow = () => {
   return { mainWindow }
 }
 
-let pageBWindow: BrowserWindow
+let desktopPetWindow: BrowserWindow
 let isShow = false
-export const usePageBWindow = () => {
-  if (!pageBWindow || !isShow) {
-    pageBWindow = new BrowserWindow({
+export const usedesktopPetWindow = () => {
+  if (!desktopPetWindow || !isShow) {
+    desktopPetWindow = new BrowserWindow({
       width: 900,
       height: 670,
       show: false,
@@ -66,30 +66,32 @@ export const usePageBWindow = () => {
         contextIsolation: false
       }
     })
-    pageBWindow.on('ready-to-show', () => {
+    desktopPetWindow.on('ready-to-show', () => {
       //表明页面内容加载好了。
-      pageBWindow.show()
+      desktopPetWindow.show()
       isShow = true
     })
     //?
-    pageBWindow.webContents.setWindowOpenHandler((details) => {
+    desktopPetWindow.webContents.setWindowOpenHandler((details) => {
       shell.openExternal(details.url)
       return { action: 'deny' }
     })
     if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-      pageBWindow.loadURL(`${process.env['ELECTRON_RENDERER_URL']}/src/pages/pageB/index.html`)
+      desktopPetWindow.loadURL(
+        `${process.env['ELECTRON_RENDERER_URL']}/src/pages/desktopPet/index.html`
+      )
       // mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
     } else {
-      pageBWindow.loadFile(join(__dirname, '../renderer/src/pages/pageB/index.html'))
+      desktopPetWindow.loadFile(join(__dirname, '../renderer/src/pages/desktopPet/index.html'))
     }
-    pageBWindow.on('ready-to-show', () => {
+    desktopPetWindow.on('ready-to-show', () => {
       //表明页面内容加载好了。
       isShow = true
-      pageBWindow.show()
+      desktopPetWindow.show()
     })
-    pageBWindow.on('close', () => {
+    desktopPetWindow.on('close', () => {
       isShow = false
     })
   }
-  return { pageBWindow, isShow }
+  return { desktopPetWindow, isShow }
 }
